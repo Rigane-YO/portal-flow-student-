@@ -78,83 +78,86 @@ export function EventDialog({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] dark:bg-gray-800 dark:border-gray-700">
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="dark:text-gray-100">
             {selectedEvent ? "Edit Event" : "Add New Event"}
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="dark:text-gray-400">
             {selectedDate && `Date: ${format(selectedDate, "MMMM d, yyyy")}`}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="title" className="text-right">
+          <div className="grid grid-cols-1 sm:grid-cols-4 items-start sm:items-center gap-2 sm:gap-4">
+            <Label htmlFor="title" className="sm:text-right dark:text-gray-300">
               Title
             </Label>
             <Input
               id="title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="col-span-3"
+              className="sm:col-span-3 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+              style={{ fontSize: '16px' }}
             />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="type" className="text-right">
+          <div className="grid grid-cols-1 sm:grid-cols-4 items-start sm:items-center gap-2 sm:gap-4">
+            <Label htmlFor="type" className="sm:text-right dark:text-gray-300">
               Type
             </Label>
             <Select
               value={type}
               onValueChange={(value) => setType(value as CalendarEvent['type'])}
             >
-              <SelectTrigger className="col-span-3">
+              <SelectTrigger className="sm:col-span-3 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100">
                 <SelectValue placeholder="Select type" />
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="class">Class</SelectItem>
-                <SelectItem value="exam">Exam</SelectItem>
-                <SelectItem value="assignment">Assignment</SelectItem>
-                <SelectItem value="meeting">Meeting</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
+              <SelectContent className="dark:bg-gray-700 dark:border-gray-600">
+                <SelectItem value="class" className="dark:text-gray-100 dark:hover:bg-gray-600">Class</SelectItem>
+                <SelectItem value="exam" className="dark:text-gray-100 dark:hover:bg-gray-600">Exam</SelectItem>
+                <SelectItem value="assignment" className="dark:text-gray-100 dark:hover:bg-gray-600">Assignment</SelectItem>
+                <SelectItem value="meeting" className="dark:text-gray-100 dark:hover:bg-gray-600">Meeting</SelectItem>
+                <SelectItem value="other" className="dark:text-gray-100 dark:hover:bg-gray-600">Other</SelectItem>
               </SelectContent>
             </Select>
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="location" className="text-right">
+          <div className="grid grid-cols-1 sm:grid-cols-4 items-start sm:items-center gap-2 sm:gap-4">
+            <Label htmlFor="location" className="sm:text-right dark:text-gray-300">
               Location
             </Label>
             <Input
               id="location"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              className="col-span-3"
+              className="sm:col-span-3 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400"
+              style={{ fontSize: '16px' }}
             />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="description" className="text-right">
+          <div className="grid grid-cols-1 sm:grid-cols-4 items-start gap-2 sm:gap-4">
+            <Label htmlFor="description" className="sm:text-right dark:text-gray-300">
               Description
             </Label>
             <Textarea
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="col-span-3"
+              className="sm:col-span-3 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400"
+              style={{ fontSize: '16px' }}
             />
           </div>
         </div>
-        <DialogFooter className="flex justify-between">
+        <DialogFooter className="flex flex-col sm:flex-row justify-between gap-2">
           <div>
             {selectedEvent && (
-              <Button variant="destructive" onClick={handleDelete}>
+              <Button variant="destructive" onClick={handleDelete} className="touch-manipulation min-h-[44px] w-full sm:w-auto">
                 Delete
               </Button>
             )}
           </div>
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={onClose}>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <Button variant="outline" onClick={onClose} className="touch-manipulation min-h-[44px] dark:border-gray-600 dark:text-gray-300">
               Cancel
             </Button>
-            <Button type="submit" onClick={handleSave}>
+            <Button type="submit" onClick={handleSave} className="touch-manipulation min-h-[44px]">
               {selectedEvent ? "Update" : "Add"} Event
             </Button>
           </div>
