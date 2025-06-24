@@ -23,6 +23,7 @@ import {
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import { useAuth } from "@/contexts/AuthContext";
 import { Badge } from "@/components/ui/badge";
+import { ForumStats } from "@/components/forum/ForumStats";
 
 const Dashboard = () => {
   const { user, isAuthenticated } = useAuth();
@@ -169,6 +170,11 @@ const Dashboard = () => {
             </Button>
           </CardContent>
         </Card>
+      </div>
+
+      {/* Forum Statistics */}
+      <div className="mt-6">
+        <ForumStats showUserStats />
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">

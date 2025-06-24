@@ -14,6 +14,7 @@ import {
   X,
   Book,
   Bell,
+  Shield,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -98,6 +99,12 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       text: "Chat",
       href: "/dashboard/chat",
       forRoles: ["student", "teacher", "admin"],
+    },
+    {
+      icon: Shield,
+      text: "Moderation",
+      href: "/dashboard/forum/moderation",
+      forRoles: ["teacher", "admin"],
     },
     {
       icon: UserRound,

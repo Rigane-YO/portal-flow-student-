@@ -5,12 +5,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import DashboardLayout from "@/components/layout/DashboardLayout";
+import { ForumStats } from "@/components/forum/ForumStats";
+import { QuestionCard } from "@/components/forum/QuestionCard";
+import { AnswerCard } from "@/components/forum/AnswerCard";
+import { useForum } from "@/contexts/ForumContext";
 
 const Profile = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { questions, answers } = useForum();
   
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
@@ -47,11 +54,23 @@ const Profile = () => {
       .toUpperCase();
   };
 
+  // Get user's forum activity
+  const userQuestions = questions.filter(q => q.author.id === user?.id);
+  const userAnswers = answers.filter(a => a.author.id === user?.id);
+
   return (
     <DashboardLayout>
-      <div className="container mx-auto max-w-4xl">
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h1 className="text-2xl font-bold mb-6">My Profile</h1>
+      <div className="container mx-auto max-w-6xl">
+        <h1 className="text-3xl font-bold mb-6">My Profile</h1>
+
+        <Tabs defaultValue="profile" className="space-y-6">
+          <TabsList>
+            <TabsTrigger value="profile">Profile Information</TabsTrigger>
+            <TabsTrigger value="forum">Forum Activity</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="profile">
+            <div className="bg-white p-6 rounded-lg shadow-md">
           
           <div className="flex flex-col md:flex-row gap-6">
             <div className="flex flex-col items-center space-y-4">
@@ -166,7 +185,100 @@ const Profile = () => {
               )}
             </div>
           </div>
-        </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="forum" className="space-y-6">
+            {/* Forum Statistics */}
+            <ForumStats showUserStats />
+
+            {/* User's Questions and Answers */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Questions */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>My Questions ({userQuestions.length})</CardTitle>
+                  <CardDescription>Questions you've asked</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {userQuestions.length === 0 ? (
+                    <div className="text-center py-8">
+                      <p className="text-gray-500 mb-4">You haven't asked any questions yet.</p>
+                      <Button onClick={() => navigate("/dashboard/forum/ask")}>
+                        Ask Your First Question
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="space-y-4 max-h-96 overflow-y-auto">
+                      {userQuestions.slice(0, 5).map((question) => (
+                        <QuestionCard
+                          key={question.id}
+                          question={question}
+                          onClick={() => navigate(`/dashboard/forum/question/${question.id}`)}
+                          className="cursor-pointer"
+                        />
+                      ))}
+                      {userQuestions.length > 5 && (
+                        <Button
+                          variant="outline"
+                          className="w-full"
+                          onClick={() => navigate("/dashboard/forum")}
+                        >
+                          View All Questions
+                        </Button>
+                      )}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Answers */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>My Answers ({userAnswers.length})</CardTitle>
+                  <CardDescription>Answers you've provided</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {userAnswers.length === 0 ? (
+                    <div className="text-center py-8">
+                      <p className="text-gray-500 mb-4">You haven't provided any answers yet.</p>
+                      <Button onClick={() => navigate("/dashboard/forum")}>
+                        Browse Questions
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="space-y-4 max-h-96 overflow-y-auto">
+                      {userAnswers.slice(0, 5).map((answer) => {
+                        const question = questions.find(q => q.id === answer.questionId);
+                        return question ? (
+                          <div key={answer.id} className="space-y-2">
+                            <div className="text-sm text-gray-600">
+                              Answer to: <span className="font-medium">{question.title}</span>
+                            </div>
+                            <AnswerCard
+                              answer={answer}
+                              questionAuthorId={question.author.id}
+                              className="cursor-pointer"
+                            />
+                          </div>
+                        ) : null;
+                      })}
+                      {userAnswers.length > 5 && (
+                        <Button
+                          variant="outline"
+                          className="w-full"
+                          onClick={() => navigate("/dashboard/forum")}
+                        >
+                          View All Answers
+                        </Button>
+                      )}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </DashboardLayout>
   );
