@@ -38,7 +38,7 @@ export function SearchBar({
   return (
     <form onSubmit={handleSubmit} className={cn("relative", className)}>
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
         <Input
           type="text"
           value={value}
@@ -47,9 +47,11 @@ export function SearchBar({
           onBlur={() => setIsFocused(false)}
           placeholder={placeholder}
           className={cn(
-            "pl-10 pr-10 transition-all duration-200",
-            isFocused && "ring-2 ring-blue-500 border-blue-500"
+            "pl-10 pr-10 transition-all duration-200 text-base sm:text-sm",
+            "dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400",
+            isFocused && "ring-2 ring-blue-500 dark:ring-blue-400 border-blue-500 dark:border-blue-400"
           )}
+          style={{ fontSize: '16px' }} // Prevents zoom on iOS
         />
         {value && (
           <Button
@@ -57,9 +59,9 @@ export function SearchBar({
             variant="ghost"
             size="sm"
             onClick={handleClear}
-            className="absolute right-1 top-1/2 transform -translate-y-1/2 h-6 w-6 p-0 hover:bg-gray-100"
+            className="absolute right-1 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 hover:bg-gray-100 dark:hover:bg-gray-700 touch-manipulation"
           >
-            <X className="h-3 w-3" />
+            <X className="h-4 w-4 text-gray-500 dark:text-gray-400" />
           </Button>
         )}
       </div>

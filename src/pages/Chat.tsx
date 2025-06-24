@@ -153,14 +153,18 @@ const Chat = () => {
 
   return (
     <DashboardLayout>
-      <div className="h-[calc(100vh-120px)] bg-white rounded-lg shadow">
+      <div className="h-[calc(100vh-120px)] bg-white dark:bg-gray-800 rounded-lg shadow border dark:border-gray-700">
         <div className="flex h-full">
           {/* Contacts sidebar */}
-          <div className="w-80 border-r border-gray-200 flex flex-col">
-            <div className="p-4 border-b">
-              <h2 className="text-lg font-semibold">Messages</h2>
+          <div className={`${activeContact ? 'hidden md:flex' : 'flex'} w-full md:w-80 border-r border-gray-200 dark:border-gray-700 flex-col`}>
+            <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Messages</h2>
               <div className="mt-2 relative">
-                <Input placeholder="Search contacts..." className="pr-8" />
+                <Input
+                  placeholder="Search contacts..."
+                  className="pr-8 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400"
+                  style={{ fontSize: '16px' }}
+                />
               </div>
             </div>
             
@@ -169,16 +173,16 @@ const Chat = () => {
                 {contacts.map((contact) => (
                   <div
                     key={contact.id}
-                    className={`flex items-center p-3 rounded-md cursor-pointer ${
+                    className={`flex items-center p-3 rounded-md cursor-pointer touch-manipulation transition-colors ${
                       activeContact?.id === contact.id
-                        ? "bg-gray-100"
-                        : "hover:bg-gray-50"
+                        ? "bg-gray-100 dark:bg-gray-700"
+                        : "hover:bg-gray-50 dark:hover:bg-gray-700"
                     }`}
                     onClick={() => setActiveContact(contact)}
                   >
-                    <Avatar className="h-10 w-10">
+                    <Avatar className="h-10 w-10 flex-shrink-0">
                       <AvatarImage src={contact.avatar} />
-                      <AvatarFallback className={contact.isGroup ? "bg-blue-100 text-blue-600" : ""}>
+                      <AvatarFallback className={contact.isGroup ? "bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400" : "dark:bg-gray-600 dark:text-gray-300"}>
                         {contact.isGroup ? (
                           <User size={18} />
                         ) : (
@@ -186,44 +190,52 @@ const Chat = () => {
                         )}
                       </AvatarFallback>
                     </Avatar>
-                    <div className="ml-3 flex-1 overflow-hidden">
-                      <div className="flex items-center justify-between">
-                        <p className="font-medium truncate">{contact.name}</p>
+                    <div className="ml-3 flex-1 overflow-hidden min-w-0">
+                      <div className="flex items-center justify-between gap-2">
+                        <p className="font-medium truncate text-gray-900 dark:text-gray-100">{contact.name}</p>
                         {contact.unread > 0 && (
-                          <span className="bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                          <span className="bg-blue-500 dark:bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center flex-shrink-0">
                             {contact.unread}
                           </span>
                         )}
                       </div>
-                      <p className="text-sm text-gray-500 truncate">
+                      <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
                         {contact.lastMessage}
                       </p>
                     </div>
                     <div className="ml-2 w-2 h-2 rounded-full flex-shrink-0 self-start mt-2">
-                      {contact.online && <div className="bg-green-500 w-2 h-2 rounded-full"></div>}
+                      {contact.online && <div className="bg-green-500 dark:bg-green-400 w-2 h-2 rounded-full"></div>}
                     </div>
                   </div>
                 ))}
               </div>
             </ScrollArea>
             
-            <div className="p-4 border-t">
-              <Button className="w-full">
+            <div className="p-4 border-t border-gray-200 dark:border-gray-700">
+              <Button className="w-full touch-manipulation min-h-[44px]">
                 <Plus size={18} className="mr-2" />
                 New Message
               </Button>
             </div>
           </div>
-          
+
           {/* Chat area */}
-          <div className="flex-1 flex flex-col">
+          <div className={`${activeContact ? 'flex' : 'hidden md:flex'} flex-1 flex-col`}>
             {activeContact ? (
               <>
                 {/* Chat header */}
-                <div className="p-4 border-b flex items-center">
+                <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="md:hidden mr-2 touch-manipulation"
+                    onClick={() => setActiveContact(null)}
+                  >
+                    ←
+                  </Button>
                   <Avatar className="h-10 w-10">
                     <AvatarImage src={activeContact.avatar} />
-                    <AvatarFallback className={activeContact.isGroup ? "bg-blue-100 text-blue-600" : ""}>
+                    <AvatarFallback className={activeContact.isGroup ? "bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400" : "dark:bg-gray-600 dark:text-gray-300"}>
                       {activeContact.isGroup ? (
                         <User size={18} />
                       ) : (
@@ -232,8 +244,8 @@ const Chat = () => {
                     </AvatarFallback>
                   </Avatar>
                   <div className="ml-3">
-                    <p className="font-medium">{activeContact.name}</p>
-                    <p className="text-xs text-gray-500">
+                    <p className="font-medium text-gray-900 dark:text-gray-100">{activeContact.name}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
                       {activeContact.online ? "Online" : "Offline"}
                     </p>
                   </div>
@@ -249,11 +261,11 @@ const Chat = () => {
                           key={msg.id}
                           className={`flex ${isOwn ? "justify-end" : "justify-start"}`}
                         >
-                          <div className="flex items-end gap-2 max-w-[80%]">
+                          <div className="flex items-end gap-2 max-w-[85%] sm:max-w-[80%]">
                             {!isOwn && (
-                              <Avatar className="h-8 w-8">
+                              <Avatar className="h-6 w-6 sm:h-8 sm:w-8 flex-shrink-0">
                                 <AvatarImage src={msg.sender.avatar} />
-                                <AvatarFallback>
+                                <AvatarFallback className="text-xs dark:bg-gray-600 dark:text-gray-300">
                                   {getInitials(msg.sender.name)}
                                 </AvatarFallback>
                               </Avatar>
@@ -261,14 +273,14 @@ const Chat = () => {
                             <div
                               className={`rounded-lg p-3 ${
                                 isOwn
-                                  ? "bg-blue-500 text-white"
-                                  : "bg-gray-100"
+                                  ? "bg-blue-500 dark:bg-blue-600 text-white"
+                                  : "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                               }`}
                             >
-                              <p>{msg.content}</p>
+                              <p className="text-sm sm:text-base leading-relaxed">{msg.content}</p>
                               <p
                                 className={`text-xs mt-1 ${
-                                  isOwn ? "text-blue-100" : "text-gray-500"
+                                  isOwn ? "text-blue-100 dark:text-blue-200" : "text-gray-500 dark:text-gray-400"
                                 }`}
                               >
                                 {msg.timestamp.toLocaleTimeString([], {
@@ -278,9 +290,9 @@ const Chat = () => {
                               </p>
                             </div>
                             {isOwn && (
-                              <Avatar className="h-8 w-8">
+                              <Avatar className="h-6 w-6 sm:h-8 sm:w-8 flex-shrink-0">
                                 <AvatarImage src={msg.sender.avatar} />
-                                <AvatarFallback>
+                                <AvatarFallback className="text-xs dark:bg-gray-600 dark:text-gray-300">
                                   {getInitials(msg.sender.name)}
                                 </AvatarFallback>
                               </Avatar>
@@ -294,15 +306,17 @@ const Chat = () => {
                 </ScrollArea>
                 
                 {/* Message input */}
-                <div className="p-4 border-t">
+                <div className="p-4 border-t border-gray-200 dark:border-gray-700">
                   <div className="flex items-center gap-2">
                     <Input
                       placeholder="Type a message..."
                       value={message}
                       onChange={(e) => setMessage(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
+                      className="dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400"
+                      style={{ fontSize: '16px' }}
                     />
-                    <Button onClick={handleSendMessage}>
+                    <Button onClick={handleSendMessage} className="touch-manipulation min-h-[44px] min-w-[44px]">
                       <Send size={18} />
                     </Button>
                   </div>
@@ -310,11 +324,11 @@ const Chat = () => {
               </>
             ) : (
               <div className="flex flex-col items-center justify-center h-full text-center p-4">
-                <MessageSquare size={48} className="text-gray-300 mb-4" />
-                <h3 className="text-xl font-medium text-gray-800 mb-2">
+                <MessageSquare size={48} className="text-gray-300 dark:text-gray-600 mb-4" />
+                <h3 className="text-xl font-medium text-gray-800 dark:text-gray-200 mb-2">
                   Welcome to Messages
                 </h3>
-                <p className="text-gray-500 max-w-md">
+                <p className="text-gray-500 dark:text-gray-400 max-w-md">
                   Select a conversation from the sidebar to start chatting or create a new message.
                 </p>
               </div>

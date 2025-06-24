@@ -8,6 +8,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { ForumProvider } from "@/contexts/ForumContext";
 import { GroupsProvider } from "@/contexts/GroupsContext";
 import { SettingsProvider } from "@/contexts/SettingsContext";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 import PrivateRoute from "@/components/PrivateRoute";
 
 // Pages
@@ -27,6 +28,7 @@ import AskQuestion from "./pages/AskQuestion";
 import ModerationQueue from "./pages/ModerationQueue";
 import WorkGroups from "./pages/WorkGroups";
 import Settings from "./pages/Settings";
+import ResponsiveTest from "./pages/ResponsiveTest";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,11 +38,12 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <AuthProvider>
-        <ForumProvider>
-          <GroupsProvider>
-            <SettingsProvider>
-              <BrowserRouter>
+      <ThemeProvider>
+        <AuthProvider>
+          <ForumProvider>
+            <GroupsProvider>
+              <SettingsProvider>
+                <BrowserRouter>
           <Routes>
             {/* Auth Routes */}
             <Route path="/" element={<Login />} />
@@ -165,7 +168,16 @@ const App = () => (
                 </PrivateRoute>
               }
             />
-            
+
+            <Route
+              path="/dashboard/test-responsive"
+              element={
+                <PrivateRoute>
+                  <ResponsiveTest />
+                </PrivateRoute>
+              }
+            />
+
             {/* Catch-all for other dashboard routes */}
             <Route 
               path="/dashboard/*" 
@@ -179,11 +191,12 @@ const App = () => (
             {/* Not Found */}
             <Route path="*" element={<NotFound />} />
           </Routes>
-              </BrowserRouter>
-            </SettingsProvider>
-          </GroupsProvider>
-        </ForumProvider>
-      </AuthProvider>
+                </BrowserRouter>
+              </SettingsProvider>
+            </GroupsProvider>
+          </ForumProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );

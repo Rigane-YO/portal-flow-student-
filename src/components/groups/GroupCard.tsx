@@ -67,21 +67,24 @@ export function GroupCard({
     (!group.maxMembers || group.memberCount < group.maxMembers);
 
   return (
-    <Card 
+    <Card
       className={cn(
-        "hover:shadow-md transition-shadow cursor-pointer",
+        "hover:shadow-md transition-shadow cursor-pointer touch-manipulation",
+        "dark:bg-gray-800 dark:border-gray-700",
         className
       )}
       onClick={onClick}
     >
-      <CardHeader className="pb-3">
-        <div className="flex items-start justify-between">
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-2">
-              <h3 className="text-lg font-semibold hover:text-blue-600 transition-colors">
+      <CardHeader className="pb-3 px-4 sm:px-6">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+          <div className="flex-1 min-w-0">
+            <div className="flex items-start gap-2 mb-2">
+              <h3 className="text-base sm:text-lg font-semibold hover:text-blue-600 dark:hover:text-blue-400 transition-colors line-clamp-2 flex-1">
                 {group.name}
               </h3>
-              {getVisibilityIcon(group.visibility)}
+              <div className="flex-shrink-0">
+                {getVisibilityIcon(group.visibility)}
+              </div>
             </div>
             
             <div className="flex items-center gap-2 mb-3">
@@ -93,19 +96,19 @@ export function GroupCard({
               </Badge>
             </div>
 
-            <p className="text-gray-600 text-sm line-clamp-2 mb-3">
+            <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-2 mb-3">
               {group.description}
             </p>
 
             {group.tags.length > 0 && (
               <div className="flex flex-wrap gap-1 mb-3">
                 {group.tags.slice(0, 3).map((tag) => (
-                  <Badge key={tag} variant="secondary" className="text-xs">
+                  <Badge key={tag} variant="secondary" className="text-xs dark:bg-gray-700 dark:text-gray-300">
                     {tag}
                   </Badge>
                 ))}
                 {group.tags.length > 3 && (
-                  <Badge variant="secondary" className="text-xs">
+                  <Badge variant="secondary" className="text-xs dark:bg-gray-700 dark:text-gray-300">
                     +{group.tags.length - 3} more
                   </Badge>
                 )}
@@ -115,26 +118,26 @@ export function GroupCard({
         </div>
       </CardHeader>
       
-      <CardContent className="pt-0">
+      <CardContent className="pt-0 px-4 sm:px-6">
         <div className="space-y-4">
           {/* Group Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
-            <div className="flex items-center space-x-1 text-gray-500">
+          <div className="grid grid-cols-2 gap-3 text-sm">
+            <div className="flex items-center space-x-1 text-gray-500 dark:text-gray-400">
               <Users className="h-4 w-4" />
               <span>{group.memberCount}</span>
               {group.maxMembers && (
                 <span className="text-xs">/{group.maxMembers}</span>
               )}
             </div>
-            <div className="flex items-center space-x-1 text-gray-500">
+            <div className="flex items-center space-x-1 text-gray-500 dark:text-gray-400">
               <CheckSquare className="h-4 w-4" />
               <span>{group.stats.totalTasks} tasks</span>
             </div>
-            <div className="flex items-center space-x-1 text-gray-500">
+            <div className="flex items-center space-x-1 text-gray-500 dark:text-gray-400">
               <FileText className="h-4 w-4" />
               <span>{group.stats.totalFiles} files</span>
             </div>
-            <div className="flex items-center space-x-1 text-gray-500">
+            <div className="flex items-center space-x-1 text-gray-500 dark:text-gray-400">
               <MessageSquare className="h-4 w-4" />
               <span>{group.stats.totalDiscussions}</span>
             </div>

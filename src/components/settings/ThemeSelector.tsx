@@ -45,51 +45,51 @@ export function ThemeSelector({ className }: ThemeSelectorProps) {
   };
 
   return (
-    <Card className={className}>
+    <Card className={cn("dark:bg-gray-800 dark:border-gray-700", className)}>
       <CardHeader>
-        <CardTitle className="flex items-center space-x-2">
+        <CardTitle className="flex items-center space-x-2 dark:text-gray-100">
           <Sun className="h-5 w-5" />
           <span>Theme</span>
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="dark:text-gray-400">
           Choose how the interface looks and feels
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <RadioGroup 
-          value={currentTheme} 
+        <RadioGroup
+          value={currentTheme}
           onValueChange={handleThemeChange}
           className="space-y-3"
         >
           {themes.map((theme) => (
-            <div key={theme.value} className="flex items-center space-x-3">
+            <div key={theme.value} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
               <RadioGroupItem value={theme.value} id={theme.value} />
-              <Label 
-                htmlFor={theme.value} 
-                className="flex items-center space-x-3 cursor-pointer flex-1"
+              <Label
+                htmlFor={theme.value}
+                className="flex items-center space-x-3 cursor-pointer flex-1 touch-manipulation"
               >
                 <div className={cn(
-                  "w-8 h-8 rounded border-2 flex items-center justify-center",
+                  "w-8 h-8 sm:w-10 sm:h-10 rounded border-2 flex items-center justify-center",
                   theme.preview
                 )}>
                   {theme.icon}
                 </div>
-                <div className="flex-1">
-                  <div className="font-medium">{theme.label}</div>
-                  <div className="text-sm text-gray-600">{theme.description}</div>
+                <div className="flex-1 min-w-0">
+                  <div className="font-medium dark:text-gray-100">{theme.label}</div>
+                  <div className="text-sm text-gray-600 dark:text-gray-400 truncate">{theme.description}</div>
                 </div>
               </Label>
             </div>
           ))}
         </RadioGroup>
         
-        <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-          <h4 className="font-medium text-sm mb-2">Preview</h4>
+        <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+          <h4 className="font-medium text-sm mb-2 dark:text-gray-100">Preview</h4>
           <div className={cn(
             "p-3 rounded border transition-colors",
             currentTheme === "light" && "bg-white border-gray-200 text-gray-900",
             currentTheme === "dark" && "bg-gray-900 border-gray-700 text-white",
-            currentTheme === "system" && "bg-white border-gray-200 text-gray-900"
+            currentTheme === "system" && "bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white"
           )}>
             <div className="text-sm font-medium mb-1">Sample Content</div>
             <div className="text-xs opacity-75">

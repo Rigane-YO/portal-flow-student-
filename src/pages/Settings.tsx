@@ -141,14 +141,21 @@ const Settings = () => {
 
         {/* Settings Content */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-7">
-            {settingsTabs.map((tab) => (
-              <TabsTrigger key={tab.id} value={tab.id} className="flex items-center space-x-2">
-                {tab.icon}
-                <span className="hidden sm:inline">{tab.label}</span>
-              </TabsTrigger>
-            ))}
-          </TabsList>
+          <div className="overflow-x-auto">
+            <TabsList className="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-7 min-w-max">
+              {settingsTabs.map((tab) => (
+                <TabsTrigger
+                  key={tab.id}
+                  value={tab.id}
+                  className="flex items-center space-x-1 sm:space-x-2 px-2 sm:px-3 text-xs sm:text-sm whitespace-nowrap"
+                >
+                  {tab.icon}
+                  <span className="hidden sm:inline">{tab.label}</span>
+                  <span className="sm:hidden text-xs">{tab.label.split(' ')[0]}</span>
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </div>
 
           <TabsContent value="general" className="space-y-6">
             <SettingsSection

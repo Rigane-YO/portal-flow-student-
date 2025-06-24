@@ -82,13 +82,13 @@ export function TaskBoard({
   };
 
   const TaskCard = ({ task }: { task: GroupTask }) => (
-    <Card 
-      className="cursor-pointer hover:shadow-md transition-shadow mb-3"
+    <Card
+      className="cursor-pointer hover:shadow-md transition-shadow mb-3 touch-manipulation dark:bg-gray-800 dark:border-gray-700"
       onClick={() => onTaskClick?.(task)}
     >
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between">
-          <CardTitle className="text-sm font-medium line-clamp-2">
+          <CardTitle className="text-sm font-medium line-clamp-2 dark:text-gray-100">
             {task.title}
           </CardTitle>
           <Badge className={getPriorityColor(task.priority)} variant="outline">
@@ -99,7 +99,7 @@ export function TaskBoard({
       <CardContent className="pt-0">
         <div className="space-y-3">
           {task.description && (
-            <p className="text-xs text-gray-600 line-clamp-2">
+            <p className="text-xs text-gray-600 dark:text-gray-300 line-clamp-2">
               {task.description}
             </p>
           )}

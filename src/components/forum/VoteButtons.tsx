@@ -39,39 +39,43 @@ export function VoteButtons({
   };
 
   return (
-    <div className={cn("flex flex-col items-center space-y-1", className)}>
+    <div className={cn(
+      "flex items-center space-x-1 sm:flex-col sm:items-center sm:space-x-0 sm:space-y-1",
+      className
+    )}>
       <Button
         variant="ghost"
         size="sm"
         className={cn(
-          "h-8 w-8 p-0 hover:bg-green-50",
-          hasUpvoted && "bg-green-50 text-green-600"
+          "h-8 w-8 p-0 hover:bg-green-50 dark:hover:bg-green-900/20 touch-manipulation",
+          hasUpvoted && "bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400"
         )}
         onClick={() => handleVote("upvote")}
         disabled={isVoting}
       >
-        <ChevronUp className="h-5 w-5" />
+        <ChevronUp className="h-4 w-4 sm:h-5 sm:w-5" />
       </Button>
-      
+
       <span className={cn(
-        "text-sm font-medium min-w-[2rem] text-center",
-        votes > 0 && "text-green-600",
-        votes < 0 && "text-red-600"
+        "text-sm font-medium min-w-[2rem] text-center px-1",
+        votes > 0 && "text-green-600 dark:text-green-400",
+        votes < 0 && "text-red-600 dark:text-red-400",
+        votes === 0 && "text-gray-600 dark:text-gray-400"
       )}>
         {votes}
       </span>
-      
+
       <Button
         variant="ghost"
         size="sm"
         className={cn(
-          "h-8 w-8 p-0 hover:bg-red-50",
-          hasDownvoted && "bg-red-50 text-red-600"
+          "h-8 w-8 p-0 hover:bg-red-50 dark:hover:bg-red-900/20 touch-manipulation",
+          hasDownvoted && "bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400"
         )}
         onClick={() => handleVote("downvote")}
         disabled={isVoting}
       >
-        <ChevronDown className="h-5 w-5" />
+        <ChevronDown className="h-4 w-4 sm:h-5 sm:w-5" />
       </Button>
     </div>
   );

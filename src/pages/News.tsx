@@ -194,48 +194,56 @@ const News = () => {
 
   return (
     <DashboardLayout>
-      <div className="container mx-auto">
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
-            <h1 className="text-2xl font-bold mb-4 md:mb-0">News & Announcements</h1>
+      <div className="container-responsive space-y-6">
+        <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg shadow-md border dark:border-gray-700">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+            <h1 className="text-responsive-2xl font-bold text-gray-900 dark:text-gray-100">News & Announcements</h1>
             
             <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
-              <div className="relative flex-1">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-                <Input 
-                  placeholder="Search announcements..." 
-                  className="pl-10"
+              <div className="relative flex-1 md:min-w-80">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" size={18} />
+                <Input
+                  placeholder="Search announcements..."
+                  className="pl-10 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400"
+                  style={{ fontSize: '16px' }}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
               {isAdmin && (
-                <Button>
+                <Button className="touch-manipulation min-h-[44px]">
                   <FileText className="mr-2" size={18} />
-                  New Announcement
+                  <span className="hidden sm:inline">New Announcement</span>
+                  <span className="sm:hidden">New</span>
                 </Button>
               )}
             </div>
           </div>
 
           <Tabs defaultValue="all" className="mb-6">
-            <TabsList>
-              <TabsTrigger value="all" onClick={() => setFilter(null)}>
-                All Announcements
-              </TabsTrigger>
-              <TabsTrigger value="school" onClick={() => setFilter("school")}>
-                School-wide
-              </TabsTrigger>
-              <TabsTrigger value="department" onClick={() => setFilter("department")}>
-                Department
-              </TabsTrigger>
-              <TabsTrigger value="class" onClick={() => setFilter("class")}>
-                Class-specific
-              </TabsTrigger>
-              <TabsTrigger value="saved">
-                Saved
-              </TabsTrigger>
-            </TabsList>
+            <div className="overflow-x-auto">
+              <TabsList className="grid grid-cols-5 min-w-max">
+                <TabsTrigger value="all" onClick={() => setFilter(null)} className="text-xs sm:text-sm whitespace-nowrap px-2 sm:px-3">
+                  <span className="hidden sm:inline">All Announcements</span>
+                  <span className="sm:hidden">All</span>
+                </TabsTrigger>
+                <TabsTrigger value="school" onClick={() => setFilter("school")} className="text-xs sm:text-sm whitespace-nowrap px-2 sm:px-3">
+                  <span className="hidden sm:inline">School-wide</span>
+                  <span className="sm:hidden">School</span>
+                </TabsTrigger>
+                <TabsTrigger value="department" onClick={() => setFilter("department")} className="text-xs sm:text-sm whitespace-nowrap px-2 sm:px-3">
+                  <span className="hidden sm:inline">Department</span>
+                  <span className="sm:hidden">Dept</span>
+                </TabsTrigger>
+                <TabsTrigger value="class" onClick={() => setFilter("class")} className="text-xs sm:text-sm whitespace-nowrap px-2 sm:px-3">
+                  <span className="hidden sm:inline">Class-specific</span>
+                  <span className="sm:hidden">Class</span>
+                </TabsTrigger>
+                <TabsTrigger value="saved" className="text-xs sm:text-sm whitespace-nowrap px-2 sm:px-3">
+                  Saved
+                </TabsTrigger>
+              </TabsList>
+            </div>
             
             <TabsContent value="all" className="space-y-6 mt-4">
               {filteredAnnouncements.map(announcement => (
@@ -327,35 +335,35 @@ const AnnouncementCard = ({ announcement, toggleLike, toggleSave }: Announcement
   const getCategoryBadge = (category: string) => {
     switch(category) {
       case "school":
-        return <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-200">School-wide</Badge>;
+        return <Badge className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 hover:bg-blue-200 dark:hover:bg-blue-800">School-wide</Badge>;
       case "department":
-        return <Badge className="bg-purple-100 text-purple-800 hover:bg-purple-200">Department</Badge>;
+        return <Badge className="bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 hover:bg-purple-200 dark:hover:bg-purple-800">Department</Badge>;
       case "class":
-        return <Badge className="bg-green-100 text-green-800 hover:bg-green-200">Class</Badge>;
+        return <Badge className="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 hover:bg-green-200 dark:hover:bg-green-800">Class</Badge>;
       default:
         return null;
     }
   };
 
   return (
-    <Card className={announcement.important ? "border-l-4 border-l-red-500" : ""}>
-      <CardHeader className="pb-2">
-        <div className="flex items-start justify-between">
-          <div className="flex items-center">
-            <Avatar className="h-10 w-10 mr-3">
+    <Card className={`dark:bg-gray-800 dark:border-gray-700 ${announcement.important ? "border-l-4 border-l-red-500 dark:border-l-red-400" : ""}`}>
+      <CardHeader className="pb-2 px-4 sm:px-6">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-start gap-3 min-w-0 flex-1">
+            <Avatar className="h-8 w-8 sm:h-10 sm:w-10 flex-shrink-0">
               <AvatarImage src={announcement.author.avatar} />
-              <AvatarFallback>{getInitials(announcement.author.name)}</AvatarFallback>
+              <AvatarFallback className="dark:bg-gray-700 dark:text-gray-300">{getInitials(announcement.author.name)}</AvatarFallback>
             </Avatar>
-            <div>
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="font-semibold">{announcement.author.name}</span>
-                <span className="text-sm text-gray-500">{announcement.author.role}</span>
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                <span className="font-semibold text-gray-900 dark:text-gray-100 truncate">{announcement.author.name}</span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">{announcement.author.role}</span>
                 {announcement.important && (
-                  <Badge variant="destructive" className="ml-auto">Important</Badge>
+                  <Badge variant="destructive" className="self-start sm:self-center">Important</Badge>
                 )}
               </div>
-              <div className="flex items-center text-sm text-gray-500 mt-1">
-                <Clock size={14} className="mr-1" />
+              <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mt-1">
+                <Clock size={14} className="mr-1 flex-shrink-0" />
                 <time>{formatDate(announcement.date)}</time>
               </div>
             </div>
@@ -363,42 +371,43 @@ const AnnouncementCard = ({ announcement, toggleLike, toggleSave }: Announcement
           
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 touch-manipulation dark:hover:bg-gray-700 flex-shrink-0">
                 <span className="sr-only">Open menu</span>
-                <ChevronDown className="h-4 w-4" />
+                <ChevronDown className="h-4 w-4 text-gray-600 dark:text-gray-400" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem 
+            <DropdownMenuContent align="end" className="dark:bg-gray-800 dark:border-gray-700">
+              <DropdownMenuItem
                 onClick={() => toggleSave(announcement.id)}
+                className="dark:hover:bg-gray-700 dark:text-gray-200"
               >
                 {announcement.saved ? "Unsave" : "Save"} announcement
               </DropdownMenuItem>
-              <DropdownMenuItem>Mark as read</DropdownMenuItem>
-              <DropdownMenuItem>Copy link</DropdownMenuItem>
+              <DropdownMenuItem className="dark:hover:bg-gray-700 dark:text-gray-200">Mark as read</DropdownMenuItem>
+              <DropdownMenuItem className="dark:hover:bg-gray-700 dark:text-gray-200">Copy link</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
         
-        <CardTitle className="mt-4">{announcement.title}</CardTitle>
+        <CardTitle className="mt-4 text-gray-900 dark:text-gray-100 text-base sm:text-lg line-clamp-2">{announcement.title}</CardTitle>
         <div className="flex flex-wrap gap-2 mt-2">
           {getCategoryBadge(announcement.category)}
           {announcement.target && (
-            <Badge variant="outline">{announcement.target}</Badge>
+            <Badge variant="outline" className="dark:border-gray-600 dark:text-gray-300">{announcement.target}</Badge>
           )}
         </div>
       </CardHeader>
-      
-      <CardContent>
-        <div className="text-gray-700">
+
+      <CardContent className="px-4 sm:px-6">
+        <div className="text-gray-700 dark:text-gray-300">
           {isShort || expanded ? (
-            <p>{announcement.content}</p>
+            <p className="text-sm sm:text-base leading-relaxed">{announcement.content}</p>
           ) : (
             <>
-              <p>{announcement.content.substring(0, 200)}...</p>
-              <Button 
-                variant="link" 
-                className="p-0 h-auto text-blue-600 mt-1" 
+              <p className="text-sm sm:text-base leading-relaxed">{announcement.content.substring(0, 200)}...</p>
+              <Button
+                variant="link"
+                className="p-0 h-auto text-blue-600 dark:text-blue-400 mt-1 touch-manipulation"
                 onClick={() => setExpanded(true)}
               >
                 Read more
@@ -407,36 +416,40 @@ const AnnouncementCard = ({ announcement, toggleLike, toggleSave }: Announcement
           )}
         </div>
         
-        <div className="flex items-center justify-between mt-4 pt-2 border-t">
-          <div className="flex items-center gap-6">
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className={`flex items-center gap-1 ${announcement.liked ? "text-blue-600" : ""}`}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mt-4 pt-2 border-t dark:border-gray-700 gap-3">
+          <div className="flex items-center gap-4 sm:gap-6">
+            <Button
+              variant="ghost"
+              size="sm"
+              className={`flex items-center gap-1 touch-manipulation min-h-[44px] sm:min-h-[36px] ${
+                announcement.liked ? "text-blue-600 dark:text-blue-400" : "text-gray-600 dark:text-gray-400"
+              }`}
               onClick={() => toggleLike(announcement.id)}
             >
-              <ThumbsUp size={18} />
-              <span>{announcement.likes}</span>
+              <ThumbsUp size={16} />
+              <span className="text-sm">{announcement.likes}</span>
             </Button>
-            
-            <Button variant="ghost" size="sm" className="flex items-center gap-1">
-              <MessageSquare size={18} />
-              <span>{announcement.comments}</span>
+
+            <Button variant="ghost" size="sm" className="flex items-center gap-1 touch-manipulation min-h-[44px] sm:min-h-[36px] text-gray-600 dark:text-gray-400">
+              <MessageSquare size={16} />
+              <span className="text-sm">{announcement.comments}</span>
             </Button>
           </div>
-          
-          <div className="flex items-center gap-2">
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className={announcement.saved ? "text-yellow-600" : ""}
+
+          <div className="flex items-center gap-2 justify-end sm:justify-start">
+            <Button
+              variant="ghost"
+              size="sm"
+              className={`touch-manipulation min-h-[44px] sm:min-h-[36px] ${
+                announcement.saved ? "text-yellow-600 dark:text-yellow-400" : "text-gray-600 dark:text-gray-400"
+              }`}
               onClick={() => toggleSave(announcement.id)}
             >
-              <Bookmark size={18} />
+              <Bookmark size={16} />
             </Button>
-            
-            <Button variant="ghost" size="sm">
-              <Share size={18} />
+
+            <Button variant="ghost" size="sm" className="touch-manipulation min-h-[44px] sm:min-h-[36px] text-gray-600 dark:text-gray-400">
+              <Share size={16} />
             </Button>
           </div>
         </div>

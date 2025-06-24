@@ -134,50 +134,57 @@ const Sections = () => {
   );
 
   const renderTeacherView = () => (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Your Teaching Sections</h1>
-        <Button>Create New Section</Button>
+    <div className="space-responsive-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <h1 className="text-responsive-2xl font-bold text-gray-900 dark:text-gray-100">Your Teaching Sections</h1>
+        <Button className="touch-manipulation min-h-[44px] w-full sm:w-auto">
+          <span className="hidden sm:inline">Create New Section</span>
+          <span className="sm:hidden">New Section</span>
+        </Button>
       </div>
-      
+
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-        <Input 
-          placeholder="Search courses..." 
-          className="pl-10"
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" size={18} />
+        <Input
+          placeholder="Search courses..."
+          className="pl-10 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400"
+          style={{ fontSize: '16px' }}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
       </div>
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid-responsive-1">
         {(searchQuery ? filteredCourses : activeCourses).map((course) => (
-          <Card key={course.id}>
-            <CardHeader className="pb-2">
-              <div className="flex justify-between items-start">
-                <div>
-                  <Badge className="mb-2">{course.code}</Badge>
-                  <CardTitle>{course.name}</CardTitle>
-                  <CardDescription className="mt-1">
+          <Card key={course.id} className="dark:bg-gray-800 dark:border-gray-700">
+            <CardHeader className="pb-2 px-4 sm:px-6">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
+                <div className="min-w-0 flex-1">
+                  <Badge className="mb-2 dark:bg-gray-700 dark:text-gray-300">{course.code}</Badge>
+                  <CardTitle className="text-gray-900 dark:text-gray-100 text-base sm:text-lg line-clamp-2">{course.name}</CardTitle>
+                  <CardDescription className="mt-1 dark:text-gray-400">
                     {course.enrolled} students enrolled (Capacity: {course.capacity})
                   </CardDescription>
                 </div>
-                <Button variant="outline">View Details</Button>
+                <Button variant="outline" className="touch-manipulation min-h-[44px] w-full sm:w-auto dark:border-gray-600 dark:text-gray-300">
+                  <span className="hidden sm:inline">View Details</span>
+                  <span className="sm:hidden">Details</span>
+                </Button>
               </div>
             </CardHeader>
-            <CardContent>
+            <CardContent className="px-4 sm:px-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
                 <div className="flex items-center">
-                  <Calendar size={18} className="mr-2 text-gray-500" />
-                  <span className="text-sm">{course.schedule}</span>
+                  <Calendar size={16} className="mr-2 text-gray-500 dark:text-gray-400 flex-shrink-0" />
+                  <span className="text-sm text-gray-700 dark:text-gray-300">{course.schedule}</span>
                 </div>
                 <div className="flex items-center">
-                  <Book size={18} className="mr-2 text-gray-500" />
-                  <span className="text-sm">{course.room}</span>
+                  <Book size={16} className="mr-2 text-gray-500 dark:text-gray-400 flex-shrink-0" />
+                  <span className="text-sm text-gray-700 dark:text-gray-300">{course.room}</span>
                 </div>
               </div>
               <div className="mt-4">
-                <p className="text-sm text-gray-700">{course.description}</p>
+                <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{course.description}</p>
               </div>
             </CardContent>
           </Card>
@@ -187,14 +194,15 @@ const Sections = () => {
   );
   
   const renderStudentView = () => (
-    <div className="space-y-6">
+    <div className="space-responsive-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h1 className="text-2xl font-bold">My Courses</h1>
+        <h1 className="text-responsive-2xl font-bold text-gray-900 dark:text-gray-100">My Courses</h1>
         <div className="relative w-full sm:w-64">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-          <Input 
-            placeholder="Search courses..." 
-            className="pl-10"
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" size={18} />
+          <Input
+            placeholder="Search courses..."
+            className="pl-10 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100 dark:placeholder-gray-400"
+            style={{ fontSize: '16px' }}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -219,11 +227,22 @@ const Sections = () => {
         </div>
       ) : (
         <Tabs defaultValue="active">
-          <TabsList>
-            <TabsTrigger value="active">Active Courses</TabsTrigger>
-            <TabsTrigger value="completed">Completed</TabsTrigger>
-            <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
-          </TabsList>
+          <div className="overflow-x-auto">
+            <TabsList className="grid grid-cols-3 min-w-max">
+              <TabsTrigger value="active" className="text-xs sm:text-sm whitespace-nowrap px-2 sm:px-3">
+                <span className="hidden sm:inline">Active Courses</span>
+                <span className="sm:hidden">Active</span>
+              </TabsTrigger>
+              <TabsTrigger value="completed" className="text-xs sm:text-sm whitespace-nowrap px-2 sm:px-3">
+                <span className="hidden sm:inline">Completed</span>
+                <span className="sm:hidden">Done</span>
+              </TabsTrigger>
+              <TabsTrigger value="upcoming" className="text-xs sm:text-sm whitespace-nowrap px-2 sm:px-3">
+                <span className="hidden sm:inline">Upcoming</span>
+                <span className="sm:hidden">Soon</span>
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
           <TabsContent value="active" className="space-y-4 mt-4">
             {activeCourses.map((course) => (
@@ -249,61 +268,62 @@ const Sections = () => {
 
   const CourseCard = ({ course }: { course: Course }) => {
     const statusColors = {
-      active: "bg-green-100 text-green-800",
-      completed: "bg-blue-100 text-blue-800",
-      upcoming: "bg-yellow-100 text-yellow-800",
+      active: "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200",
+      completed: "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200",
+      upcoming: "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200",
     };
 
     return (
-      <Card>
-        <CardHeader className="pb-2">
-          <div className="flex justify-between items-start">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <Badge>{course.code}</Badge>
+      <Card className="dark:bg-gray-800 dark:border-gray-700">
+        <CardHeader className="pb-2 px-4 sm:px-6">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-2 mb-1">
+                <Badge className="dark:bg-gray-700 dark:text-gray-300">{course.code}</Badge>
                 {course.status && (
                   <Badge className={statusColors[course.status] || ""} variant="secondary">
-                    {course.status === "active" ? "In Progress" : 
+                    {course.status === "active" ? "In Progress" :
                      course.status === "completed" ? "Completed" : "Upcoming"}
                   </Badge>
                 )}
               </div>
-              <CardTitle>{course.name}</CardTitle>
+              <CardTitle className="text-gray-900 dark:text-gray-100 text-base sm:text-lg line-clamp-2">{course.name}</CardTitle>
             </div>
-            <Button variant="outline" size="sm">
-              View Course
+            <Button variant="outline" size="sm" className="touch-manipulation min-h-[44px] w-full sm:w-auto dark:border-gray-600 dark:text-gray-300">
+              <span className="hidden sm:inline">View Course</span>
+              <span className="sm:hidden">View</span>
               <ArrowRight className="ml-2" size={16} />
             </Button>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="px-4 sm:px-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-2">
-            <div>
+            <div className="space-y-2">
               <div className="flex items-center">
-                <Users size={18} className="mr-2 text-gray-500" />
-                <span className="text-sm">{course.instructor}</span>
+                <Users size={16} className="mr-2 text-gray-500 dark:text-gray-400 flex-shrink-0" />
+                <span className="text-sm text-gray-700 dark:text-gray-300 truncate">{course.instructor}</span>
               </div>
-              <div className="flex items-center mt-2">
-                <Calendar size={18} className="mr-2 text-gray-500" />
-                <span className="text-sm">{course.schedule}</span>
+              <div className="flex items-center">
+                <Calendar size={16} className="mr-2 text-gray-500 dark:text-gray-400 flex-shrink-0" />
+                <span className="text-sm text-gray-700 dark:text-gray-300">{course.schedule}</span>
               </div>
-              <div className="flex items-center mt-2">
-                <Book size={18} className="mr-2 text-gray-500" />
-                <span className="text-sm">{course.room}</span>
+              <div className="flex items-center">
+                <Book size={16} className="mr-2 text-gray-500 dark:text-gray-400 flex-shrink-0" />
+                <span className="text-sm text-gray-700 dark:text-gray-300">{course.room}</span>
               </div>
             </div>
-            <div>
+            <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">Credits</span>
-                <span className="text-sm">{course.credits}</span>
+                <span className="text-sm font-medium text-gray-900 dark:text-gray-100">Credits</span>
+                <span className="text-sm text-gray-700 dark:text-gray-300">{course.credits}</span>
               </div>
               {course.progress !== undefined && (
-                <div className="mt-2">
+                <div>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm font-medium">Progress</span>
-                    <span className="text-sm">{course.progress}%</span>
+                    <span className="text-sm font-medium text-gray-900 dark:text-gray-100">Progress</span>
+                    <span className="text-sm text-gray-700 dark:text-gray-300">{course.progress}%</span>
                   </div>
-                  <Progress value={course.progress} />
+                  <Progress value={course.progress} className="dark:bg-gray-700" />
                 </div>
               )}
             </div>
@@ -315,8 +335,8 @@ const Sections = () => {
 
   return (
     <DashboardLayout>
-      <div className="container mx-auto">
-        <div className="bg-white p-6 rounded-lg shadow-md">
+      <div className="container-responsive">
+        <div className="bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-lg shadow-md border dark:border-gray-700">
           {isTeacher ? renderTeacherView() : renderStudentView()}
         </div>
       </div>
